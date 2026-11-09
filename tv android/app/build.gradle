@@ -1,0 +1,62 @@
+plugins {
+    id "com.android.application"
+    id "com.chaquo.python"
+}
+
+def embeddedPythonDir = layout.buildDirectory.dir("generated/teenixPython")
+
+android {
+    namespace "it.teenix.tv"
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "it.teenix.tv"
+        minSdk 24
+        targetSdk 28
+        versionCode 4
+        versionName "1.3.0"
+        ndk {
+            abiFilters "arm64-v8a", "armeabi-v7a"
+        }
+    }
+}
+
+chaquopy {
+    defaultConfig {
+        version = "3.11"
+        pip {
+            install("fastapi==0.103.2")
+            install("pydantic==1.10.22")
+            install("uvicorn==0.23.2")
+            install("requests==2.32.3")
+            install("beautifulsoup4==4.13.4")
+        }
+    }
+    sourceSets {
+        getByName("main") {
+            srcDir(embeddedPythonDir)
+        }
+    }
+}
+
+tasks.register("prepareTeenixPython", Sync) {
+    from(rootProject.file("../server.py"))
+    from(rootProject.file("../scrapers")) {
+        include("animeunity.py", "streamingcommunity.py")
+        into("scrapers")
+    }
+    from(rootProject.file("../web")) {
+        into("web")
+    }
+    into(embeddedPythonDir)
+}
+
+tasks.named("preBuild").configure {
+    dependsOn("prepareTeenixPython")
+}
+
+tasks.configureEach {
+    if (name.endsWith("PythonSources")) {
+        dependsOn("prepareTeenixPython")
+    }
+}

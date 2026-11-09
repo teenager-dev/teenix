@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="Teenix: film, serie TV e anime da scoprire e guardare.">
+  <title>Teenix — La prossima storia inizia qui</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/web/style.css?v=20261109-47">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Teenix, home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none">
+            <path d="M18 3.5 31 11v14L18 32.5 5 25V11L18 3.5Z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="m15 12 9 6-9 6V12Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="brand-name">teen<span>ix</span></span>
+      </a>
+
+      <select id="source" class="native-select" tabindex="-1" aria-hidden="true">
+        <option value="sc">Film &amp; TV</option>
+        <option value="au">Anime</option>
+      </select>
+
+      <div id="profile-controls" class="profile-controls hidden">
+        <button id="profile-settings" class="profile-settings" type="button" aria-label="Gestisci profili e impostazioni">
+          <img id="active-profile-avatar" class="header-avatar hidden" alt="">
+          <span id="active-profile-initials" class="header-avatar-fallback">?</span>
+          <span id="active-profile-name" class="header-profile-name"></span>
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="windowbar-controls" aria-label="Controlli finestra">
+        <button type="button" data-window-action="minimize" aria-label="Riduci a icona">
+          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 9h8"/></svg>
+        </button>
+        <button type="button" data-window-action="maximize" aria-label="Ingrandisci">
+          <svg class="maximize-icon" viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="2.5" width="7" height="7"/></svg>
+          <svg class="restore-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2.5h5.5V8M8 4H2.5v5.5H8z"/></svg>
+        </button>
+        <button class="windowbar-close" type="button" data-window-action="close" aria-label="Chiudi Teenix">
+          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="m3 3 6 6m0-6L3 9"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="startup-splash" class="startup-splash" aria-hidden="true">
+    <span class="startup-mark">
+      <svg viewBox="0 0 36 36" fill="none">
+        <path d="M18 3.5 31 11v14L18 32.5 5 25V11L18 3.5Z" stroke="currentColor" stroke-width="1.5"/>
+        <path d="m15 12 9 6-9 6V12Z" fill="currentColor"/>
+      </svg>
+    </span>
+    <span class="startup-wordmark">teen<span>ix</span></span>
+    <span class="startup-progress"><i></i></span>
+  </div>
+
+  <aside id="app-sidebar" class="app-sidebar" aria-label="Navigazione principale">
+    <button id="sidebar-toggle" class="sidebar-icon sidebar-menu" type="button" aria-label="Apri navigazione" aria-expanded="false">
+      <span aria-hidden="true">☰</span><span class="sidebar-label">Menu</span>
+    </button>
+    <div class="sidebar-divider"></div>
+    <button id="sidebar-home" class="sidebar-icon is-active" type="button" aria-label="Cos'è Teenix">
+      <span class="sidebar-glyph" aria-hidden="true">⌂</span><span class="sidebar-label">Cos'è Teenix</span>
+    </button>
+    <button id="nav-film-tv" class="sidebar-icon" type="button" aria-label="Film e serie TV" aria-pressed="false">
+      <span class="sidebar-glyph" aria-hidden="true">▣</span><span class="sidebar-label">Film &amp; TV</span>
+    </button>
+    <button id="nav-anime" class="sidebar-icon" type="button" aria-label="Anime" aria-pressed="false">
+      <span class="sidebar-glyph" aria-hidden="true">✦</span><span class="sidebar-label">Anime</span>
+    </button>
+    <button id="sidebar-search" class="sidebar-icon" type="button" aria-label="Cerca">
+      <span class="sidebar-glyph" aria-hidden="true">⌕</span><span class="sidebar-label">Cerca</span>
+    </button>
+    <button id="sidebar-favorites" class="sidebar-icon" type="button" aria-label="La mia lista">
+      <span class="sidebar-glyph" aria-hidden="true">♡</span><span class="sidebar-label">La mia lista</span>
+    </button>
+    <button id="sidebar-settings" class="sidebar-icon sidebar-settings" type="button" aria-label="Impostazioni">
+      <span class="sidebar-glyph" aria-hidden="true">⚙</span><span class="sidebar-label">Impostazioni</span>
+    </button>
+  </aside>
+
+  <section id="profile-screen" class="profile-screen" aria-labelledby="profile-screen-title">
+    <section class="profile-picker">
+      <p class="profile-kicker">TEENIX</p>
+      <h1 id="profile-screen-title">Chi guarda oggi?</h1>
+      <p class="profile-description">Scegli un profilo per iniziare.</p>
+      <p id="profile-screen-error" class="profile-form-error hidden" role="alert"></p>
+      <div id="profile-list" class="profile-list" aria-live="polite"></div>
+    </section>
+  </section>
+
+  <section id="settings-screen" class="settings-screen hidden" aria-labelledby="settings-title">
+    <header class="settings-header">
+      <div>
+        <p class="profile-kicker">PERSONALIZZA TEENIX</p>
+        <h1 id="settings-title">Impostazioni</h1>
+        <p class="profile-description">Il tuo spazio, i tuoi profili e il tuo modo di guardare.</p>
+      </div>
+      <button id="settings-back" class="secondary-button" type="button">Torna al catalogo</button>
+    </header>
+    <div class="settings-layout">
+      <div class="settings-content">
+        <section id="settings-appearance" class="settings-card">
+          <p class="section-kicker">LA TUA ESPERIENZA</p>
+          <h2>Aspetto</h2>
+          <div class="appearance-setting">
+            <div><strong>Riduci animazioni</strong><span>Riduce le transizioni dell'interfaccia.</span></div>
+            <input id="reduce-motion" type="checkbox" aria-label="Riduci animazioni">
+          </div>
+          <div class="theme-setting">
+            <span class="theme-setting-heading"><strong>Tema</strong><small>Scegli un look e vedine subito l'anteprima.</small></span>
+            <div class="theme-preview-grid" role="group" aria-label="Tema dell'interfaccia">
+              <button class="theme-preview" type="button" data-theme-option="orange" aria-pressed="false" aria-label="Tema Notte arancio">
+                <span class="theme-preview-screen theme-preview-orange"><i></i><i></i><i></i></span><span>Notte arancio</span>
+              </button>
+              <button class="theme-preview" type="button" data-theme-option="black" aria-pressed="false" aria-label="Tema Nero e ghiaccio">
+                <span class="theme-preview-screen theme-preview-black"><i></i><i></i><i></i></span><span>Nero / ghiaccio</span>
+              </button>
+              <button class="theme-preview" type="button" data-theme-option="white" aria-pressed="false" aria-label="Tema Bianco">
+                <span class="theme-preview-screen theme-preview-white"><i></i><i></i><i></i></span><span>Bianco</span>
+              </button>
+              <button class="theme-preview" type="button" data-theme-option="blue" aria-pressed="false" aria-label="Tema Oceano azzurro">
+                <span class="theme-preview-screen theme-preview-blue"><i></i><i></i><i></i></span><span>Oceano azzurro</span>
+              </button>
+              <button class="theme-preview" type="button" data-theme-option="purple" aria-pressed="false" aria-label="Tema Viola notte">
+                <span class="theme-preview-screen theme-preview-purple"><i></i><i></i><i></i></span><span>Viola notte</span>
+              </button>
+              <button class="theme-preview" type="button" data-theme-option="green" aria-pressed="false" aria-label="Tema Smeraldo">
+                <span class="theme-preview-screen theme-preview-green"><i></i><i></i><i></i></span><span>Smeraldo</span>
+              </button>
+              <button class="theme-preview" type="button" data-theme-option="red" aria-pressed="false" aria-label="Tema Rosso cinema">
+                <span class="theme-preview-screen theme-preview-red"><i></i><i></i><i></i></span><span>Rosso cinema</span>
+              </button>
+              <button class="theme-preview" type="button" data-theme-option="rose" aria-pressed="false" aria-label="Tema Rosa neon">
+                <span class="theme-preview-screen theme-preview-rose"><i></i><i></i><i></i></span><span>Rosa neon</span>
+              </button>
+              <button class="theme-preview" type="button" data-theme-option="teal" aria-pressed="false" aria-label="Tema Laguna">
+                <span class="theme-preview-screen theme-preview-teal"><i></i><i></i><i></i></span><span>Laguna</span>
+              </button>
+              <button class="theme-preview" type="button" data-theme-option="gold" aria-pressed="false" aria-label="Tema Oro">
+                <span class="theme-preview-screen theme-preview-gold"><i></i><i></i><i></i></span><span>Oro</span>
+              </button>
+            </div>
+          </div>
+        </section>
+        <section id="settings-language" class="settings-card">
+          <p class="section-kicker">RIPRODUZIONE</p>
+          <h2>Lingua audio</h2>
+          <p class="profile-description">Preferisci l'italiano quando disponibile. Per gli anime, se non c'è, prova l'audio originale con sottotitoli.</p>
+          <label class="language-setting" for="preferred-language">
+            <span><strong>Preferenza audio</strong><small>La scelta vale per film, serie TV e anime.</small></span>
+            <select id="preferred-language" aria-label="Preferenza lingua audio">
+              <option value="it">Italiano, poi originale</option>
+              <option value="original">Lingua originale</option>
+              <option value="auto">Automatico</option>
+            </select>
+          </label>
+        </section>
+        <section id="settings-profiles" class="settings-card">
+          <div id="profile-manager" class="profile-manager">
+            <p class="section-kicker">CHI GUARDA?</p>
+            <h2>Profili</h2>
+            <p class="profile-description">Crea, modifica o scegli un profilo su questo dispositivo.</p>
+            <p id="profile-manager-error" class="profile-form-error hidden" role="alert"></p>
+            <div id="manage-profile-list" class="manage-profile-list"></div>
+            <button id="add-profile" class="primary-button add-profile-button" type="button">Crea un profilo</button>
+            <button id="switch-profile" class="secondary-button switch-profile-button hidden" type="button">Cambia profilo</button>
+          </div>
+          <form id="profile-form" class="profile-form hidden">
+            <p class="profile-kicker">IL TUO PROFILO</p>
+            <h2 id="profile-form-title">Crea un profilo</h2>
+            <label class="profile-name-label" for="profile-name">Nome</label>
+            <input id="profile-name" type="text" maxlength="24" autocomplete="off" placeholder="Come ti chiami?" required>
+            <div class="avatar-editor">
+              <div class="avatar-preview-wrap">
+                <img id="avatar-preview" class="avatar-preview hidden" alt="Anteprima immagine profilo">
+                <span id="avatar-preview-fallback" class="avatar-preview-fallback">?</span>
+              </div>
+              <div class="avatar-actions">
+                <label class="secondary-button upload-avatar" for="avatar-file">Carica immagine</label>
+                <input id="avatar-file" class="sr-only" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+                <button id="remove-avatar" class="text-button" type="button">Rimuovi immagine</button>
+                <p class="avatar-hint">Immagine salvata solo su questo browser.</p>
+              </div>
+            </div>
+            <p id="profile-form-error" class="profile-form-error hidden" role="alert"></p>
+            <div class="profile-form-actions">
+              <button id="cancel-profile-form" class="secondary-button" type="button">Annulla</button>
+              <button class="primary-button" type="submit">Salva profilo</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <main id="page-content" class="page-shell hidden">
+    <section id="about-screen" class="about-screen hidden" aria-labelledby="about-title">
+      <div class="about-hero">
+        <p class="section-kicker">BENVENUTO SU TEENIX</p>
+        <h1 id="about-title">Tutto quello che ami,<br><span>in un solo posto.</span></h1>
+        <p>Teenix ti aiuta a scoprire film, serie TV e anime, organizzare i titoli che ti interessano e ritrovare facilmente quello che stavi guardando.</p>
+        <div class="about-actions">
+          <button class="detail-watch" type="button" data-about-catalog="sc">Esplora film e serie</button>
+          <button class="secondary-button" type="button" data-about-catalog="au">Scopri gli anime</button>
+        </div>
+      </div>
+      <div class="about-features">
+        <article class="about-feature">
+          <span aria-hidden="true">✦</span>
+          <h2>Scopri</h2>
+          <p>Esplora raccolte curate e cerca tra cataloghi di film, serie e anime.</p>
+        </article>
+        <article class="about-feature">
+          <span aria-hidden="true">◷</span>
+          <h2>Continua</h2>
+          <p>Riprendi la visione dal punto giusto e mantieni i progressi separati per profilo.</p>
+        </article>
+        <article class="about-feature">
+          <span aria-hidden="true">⌕</span>
+          <h2>Informati</h2>
+          <p>Consulta schede, copertine ed episodi con metadati collegati alle loro fonti.</p>
+        </article>
+      </div>
+      <p class="about-note">Teenix organizza i cataloghi e le tue preferenze: i metadati provengono da servizi esterni e i link video vengono cercati solo quando avvii la riproduzione.</p>
+    </section>
+
+    <section id="search-screen" class="search-screen hidden" aria-label="Ricerca">
+      <div class="search-console">
+        <div class="search-screen-heading">
+          <p class="search-screen-kicker">TROVA LA TUA PROSSIMA STORIA</p>
+          <h1>Cerca</h1>
+          <p>Film, serie TV e anime in un unico posto.</p>
+        </div>
+        <form id="search-form" class="search-controls" role="search">
+          <label class="sr-only" for="q">Cosa vuoi guardare?</label>
+          <div class="search-source-switch" role="group" aria-label="Sezione da cercare">
+            <button id="search-source-sc" type="button" aria-pressed="true">Film &amp; TV</button>
+            <button id="search-source-au" type="button" aria-pressed="false">Anime</button>
+          </div>
+          <input id="q" type="search" placeholder="Cosa vuoi guardare?" autocomplete="off">
+          <div class="select-control" id="kind-wrap">
+            <span class="search-filter-label">TIPOLOGIA</span>
+            <div class="custom-select" id="kind-select">
+              <button id="kind-toggle" class="custom-select-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span id="kind-label">Tutti</span>
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="custom-select-menu hidden" role="listbox" aria-label="Tipologia">
+                <button class="custom-option is-selected" type="button" role="option" aria-selected="true" data-value="all">Tutti</button>
+                <button class="custom-option" type="button" role="option" aria-selected="false" data-value="movie">Film</button>
+                <button class="custom-option" type="button" role="option" aria-selected="false" data-value="tv">Serie TV</button>
+              </div>
+            </div>
+            <select id="kind" class="native-select" tabindex="-1" aria-hidden="true">
+              <option value="all">Tutti</option>
+              <option value="movie">Film</option>
+              <option value="tv">Serie TV</option>
+            </select>
+          </div>
+          <div class="search-keypad" role="group" aria-label="Tastierino di ricerca">
+            <button type="button" data-key="1">1</button><button type="button" data-key="2">2</button><button type="button" data-key="3">3</button>
+            <button type="button" data-key="4">4</button><button type="button" data-key="5">5</button><button type="button" data-key="6">6</button>
+            <button type="button" data-key="7">7</button><button type="button" data-key="8">8</button><button type="button" data-key="9">9</button>
+            <button type="button" data-key="q">Q</button><button type="button" data-key="w">W</button><button type="button" data-key="e">E</button>
+            <button type="button" data-key="r">R</button><button type="button" data-key="t">T</button><button type="button" data-key="y">Y</button>
+            <button type="button" data-key="u">U</button><button type="button" data-key="i">I</button><button type="button" data-key="o">O</button>
+            <button type="button" data-key="p">P</button><button type="button" data-key="a">A</button><button type="button" data-key="s">S</button>
+            <button type="button" data-key="d">D</button><button type="button" data-key="f">F</button><button type="button" data-key="g">G</button>
+            <button type="button" data-key="h">H</button><button type="button" data-key="j">J</button><button type="button" data-key="k">K</button>
+            <button type="button" data-key="l">L</button><button type="button" data-key="z">Z</button><button type="button" data-key="x">X</button>
+            <button type="button" data-key="c">C</button><button type="button" data-key="v">V</button><button type="button" data-key="b">B</button>
+            <button type="button" data-key="n">N</button><button type="button" data-key="m">M</button>
+            <button class="keypad-action" type="button" data-key="space" aria-label="Inserisci spazio">SPAZIO</button>
+            <button class="keypad-action" type="button" data-key="backspace" aria-label="Cancella un carattere">⌫</button>
+            <button class="keypad-action" type="button" data-key="clear">PULISCI</button>
+          </div>
+          <button id="go" type="submit">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.2 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span>Cerca</span>
+          </button>
+        </form>
+      </div>
+      <section class="search-results-pane" aria-label="Risultati di ricerca">
+        <div class="section-heading search-results-heading">
+          <div><p class="section-kicker">ESPLORA IL CATALOGO</p><h2 id="search-title">I risultati appariranno qui</h2></div>
+          <span id="search-results-count" class="results-count"></span>
+        </div>
+        <section id="search-status" class="status" role="status" aria-live="polite">Inserisci un titolo o usa il tastierino per iniziare.</section>
+        <section id="search-results" class="grid" aria-label="Titoli trovati"></section>
+      </section>
+    </section>
+
+    <section id="catalog-hero" class="catalog-hero hidden" aria-labelledby="catalog-hero-title">
+      <img id="catalog-hero-image" class="catalog-hero-image" alt="" aria-hidden="true">
+      <div class="catalog-hero-shade" aria-hidden="true"></div>
+      <div class="catalog-hero-content">
+        <p id="catalog-hero-kicker" class="catalog-hero-kicker">SELEZIONE DELLA SETTIMANA</p>
+        <h1 id="catalog-hero-title"></h1>
+        <p id="catalog-hero-description" class="catalog-hero-description"></p>
+        <div class="catalog-hero-actions">
+          <button id="catalog-hero-watch" class="detail-watch" type="button">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.8c0-.8.9-1.3 1.6-.9l10.1 6.1c.7.4.7 1.5 0 1.9L9.6 19c-.7.4-1.6-.1-1.6-.9V5.8Z"/></svg>
+            <span>Scopri il titolo</span>
+          </button>
+          <span class="catalog-hero-source">Un catalogo, nuove storie ogni giorno</span>
+        </div>
+      </div>
+      <span class="catalog-hero-index" aria-hidden="true">01 <i></i> 01</span>
+    </section>
+
+    <section id="title-detail" class="title-detail hidden" aria-labelledby="detail-title">
+      <div class="detail-hero">
+        <img id="detail-backdrop" class="detail-backdrop" alt="" aria-hidden="true">
+        <div class="detail-shade" aria-hidden="true"></div>
+        <div class="detail-hero-content">
+          <button id="detail-back" class="detail-back" type="button">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="detail-back-label">Torna ai risultati</span>
+          </button>
+          <div class="detail-main">
+            <img id="detail-poster" class="detail-poster hidden" alt="">
+            <div class="detail-copy">
+              <div id="detail-tags" class="detail-tags"></div>
+              <h2 id="detail-title"></h2>
+              <div id="detail-metadata" class="detail-metadata"></div>
+              <div id="detail-genres" class="detail-genres"></div>
+              <p id="detail-plot" class="detail-plot"></p>
+              <p id="detail-cast" class="detail-cast hidden"></p>
+              <div class="detail-actions">
+                <button id="detail-watch" class="detail-watch" type="button">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.8c0-.8.9-1.3 1.6-.9l10.1 6.1c.7.4.7 1.5 0 1.9L9.6 19c-.7.4-1.6-.1-1.6-.9V5.8Z"/></svg>
+                  <span>Guarda</span>
+                </button>
+                <a id="detail-imdb" class="detail-link hidden" target="_blank" rel="noopener noreferrer">Apri su IMDb <span>↗</span></a>
+                <a id="detail-anilist" class="detail-link hidden" target="_blank" rel="noopener noreferrer">AniList <span>↗</span></a>
+                <a id="detail-mal" class="detail-link hidden" target="_blank" rel="noopener noreferrer">MyAnimeList <span>↗</span></a>
+              </div>
+              <p id="detail-attribution" class="detail-attribution"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog-section" aria-labelledby="catalog-title">
+      <div class="section-heading">
+        <div>
+          <h1 id="catalog-title">Novità</h1>
+        </div>
+        <span id="results-count" class="results-count"></span>
+      </div>
+      <section id="status" class="status hidden" role="status" aria-live="polite"></section>
+      <section id="results" class="grid" aria-label="Risultati di ricerca"></section>
+    </section>
+
+    <section id="episodes" class="episodes-panel hidden" aria-labelledby="episodes-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">TUTTI GLI EPISODI</p>
+          <h2 id="episodes-title"></h2>
+        </div>
+      </div>
+      <div id="episodes-list" class="episode-list"></div>
+    </section>
+
+    <section id="related-panel" class="related-panel hidden" aria-labelledby="related-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">ALTRE STORIE PER TE</p>
+          <h2 id="related-title">Titoli correlati</h2>
+        </div>
+      </div>
+      <div id="related-list" class="related-list"></div>
+    </section>
+
+  </main>
+
+  <section id="player" class="player hidden" aria-label="Lettore video" aria-modal="true" role="dialog">
+    <div class="player-screen">
+      <video id="video" preload="auto" playsinline></video>
+      <div id="player-loading" class="player-loading" role="status" aria-live="polite">
+        <span class="player-spinner" aria-hidden="true"></span>
+        <span id="player-status">Sto preparando la riproduzione…</span>
+        <button id="player-retry" class="player-retry hidden" type="button">Riprova a connetterti</button>
+      </div>
+      <button id="player-center-play" class="player-center-play" type="button" aria-label="Riproduci">
+        <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.8c0-.8.9-1.3 1.6-.9l10.1 6.1c.7.4.7 1.5 0 1.9L9.6 19c-.7.4-1.6-.1-1.6-.9V5.8Z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg>
+      </button>
+      <div class="player-vignette" aria-hidden="true"></div>
+      <header class="player-top">
+        <button id="close-player" class="player-back" type="button" aria-label="Torna indietro">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Indietro</span>
+        </button>
+        <div class="player-title-wrap">
+          <span class="player-indicator"><i aria-hidden="true"></i> IN RIPRODUZIONE</span>
+          <strong id="playing-title"></strong>
+        </div>
+        <button id="player-fullscreen" class="player-icon-button" type="button" aria-label="Attiva schermo intero">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </header>
+      <div class="player-controls">
+        <input id="player-seek" class="player-seek" type="range" min="0" max="1000" value="0" aria-label="Posizione del video">
+        <div class="player-controls-row">
+          <div class="player-control-group">
+            <button id="player-skip-back" class="player-icon-button player-skip" type="button" aria-label="Indietro di 10 secondi">−10</button>
+            <button id="player-play" class="player-icon-button player-play" type="button" aria-label="Riproduci">
+              <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.8c0-.8.9-1.3 1.6-.9l10.1 6.1c.7.4.7 1.5 0 1.9L9.6 19c-.7.4-1.6-.1-1.6-.9V5.8Z"/></svg>
+              <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg>
+            </button>
+            <button id="player-skip-forward" class="player-icon-button player-skip" type="button" aria-label="Avanti di 10 secondi">+10</button>
+            <span id="player-current-time" class="player-time">0:00</span>
+            <span class="player-time-divider">/</span>
+            <span id="player-duration" class="player-time">0:00</span>
+          </div>
+          <div class="player-control-group player-control-right">
+            <label class="player-volume-control" aria-label="Volume">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 9a5 5 0 0 1 0 6m2-9a9 9 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <input id="player-volume" type="range" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+            </label>
+            <div class="player-quality-control"><span>Qualità</span>
+              <select id="player-quality" aria-label="Risoluzione video"></select>
+            </div>
+            <details class="player-tools">
+              <summary aria-label="Altri strumenti">⋯</summary>
+              <div class="player-tools-menu">
+                <button id="copy-url" type="button">Copia URL stream</button>
+                <button id="copy-mp4" type="button">Copia URL MP4</button>
+                <button id="open-mp4" type="button">Apri MP4</button>
+                <button id="download-mp4" type="button">Scarica</button>
+                <button id="copy-mpv" type="button">Copia comando mpv</button>
+                <details>
+                  <summary>Dettagli sorgente</summary>
+                  <pre id="source-info"></pre>
+                </details>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="loading-overlay" class="loading-overlay hidden" role="status" aria-live="polite" aria-hidden="true">
+    <div class="loading-card">
+      <div class="loading-orbit" aria-hidden="true"><span></span></div>
+      <p class="loading-title">Un momento</p>
+      <p id="loading-message" class="loading-message">Sto caricando...</p>
+      <div class="loading-track" aria-hidden="true"><span></span></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span class="footer-brand">TEE<span>NIX</span></span>
+    <span>La tua prossima visione è a un click.</span>
+  </footer>
+
+  <div id="page-scrollbar" class="page-scrollbar" role="scrollbar" aria-label="Scorrimento della pagina"
+       aria-controls="page-content" aria-orientation="vertical" aria-valuemin="0"
+       aria-valuemax="0" aria-valuenow="0" tabindex="0">
+    <span class="page-scrollbar-thumb"></span>
+  </div>
+
+  <script src="/web/script.js?v=20261109-52"></script>
+</body>
+</html>
